@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="br.edu.usp.javalibrary.javalibrary.view.SignupController">
+    <children>
+        <VBox alignment="CENTER" spacing="10" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+              AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" style="-fx-background-color: #f8f9fa; -fx-padding: 20;">
+
+            <Label text="Cadastro" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+            <TextField fx:id="nameField" promptText="Nome completo" />
+            <TextField fx:id="emailField" promptText="E-mail" />
+            <PasswordField fx:id="passwordField" promptText="Senha" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Cadastrar" onAction="#onSubmit" />
+                <Button text="Voltar" onAction="#onBack" />
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>
