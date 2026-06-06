@@ -1,36 +1,56 @@
 package br.edu.usp.javalibrary.javalibrary.service.repository;
 
-import br.edu.usp.javalibrary.javalibrary.exceptions.FileLoadException;
+import br.edu.usp.javalibrary.javalibrary.service.JsonService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.User;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
-@Singleton
 public class UserRepository {
     static final String userFilePath = "users.json";
 
-    @Inject
-    private JsonService jsonService;
-    private ArrayList<User> users;
+    private HashMap<UUID, User> users;
 
+    private static UserRepository instance;
 
-    private void loadUsers() {
+    public static UserRepository getInstance() {
+        if (instance == null) instance = new UserRepository();
+        return instance;
+    }
+
+    private UserRepository() {
+    }
+
+    private void loadUsersFile() {
         try {
-            users = jsonService.loadJson(userFilePath);
-        } catch (FileLoadException e) {
-            users = new ArrayList<>();
-            throw e;
+            final ArrayList<User> users = JsonService.getInstance().loadJson(userFilePath);
+            this.users = new HashMap<>(users.stream().collect(Collectors.toMap(User::getId, user -> user)));
+        } catch (Exception e) {
+            users = new HashMap<>();
+        }
+    }
+
+    private boolean saveUsersFile() {
+        try {
+            JsonService.getInstance().saveJson(userFilePath, getUsers());
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
     public ArrayList<User> getUsers() {
-        if (users == null) loadUsers();
-        return users;
+        if (users == null) loadUsersFile();
+        return new ArrayList<>(users.values());
+    }
+
+    public Optional<User> getUser(UUID id) {
+        if (users == null) loadUsersFile();
+        return Optional.ofNullable(users.get(id));
     }
 
     public Optional<User> getUser(String emailAddress) {
@@ -39,35 +59,21 @@ public class UserRepository {
                 .findFirst();
     }
 
-    public Optional<User> getUser(UUID id) {
-        return getUsers().stream()
-                .filter(user -> user.getID().equals(id))
-                .findFirst();
+    public boolean saveUsers(ArrayList<User> users) {
+        this.users = new HashMap<>(users.stream().collect(Collectors.toMap(User::getId, user -> user)));
+        return saveUsersFile();
     }
 
-
-    public void saveUser(User user) {
-        final ArrayList<User> users = getUsers();
-        if (!users.contains(user)) {
-            users.add(user);
-        } else {
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getID() == user.getID()) {
-                    users.set(i, user);
-                }
-            }
-        }
-        saveUsers();
+    public boolean saveUser(User user) {
+        if (users == null) loadUsersFile();
+        users.put(user.getId(), user);
+        return saveUsersFile();
     }
 
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
-        saveUsers();
+    public boolean removeUser(UUID id) {
+        if (users == null) loadUsersFile();
+        users.remove(id);
+        return saveUsersFile();
     }
-
-    public void saveUsers() {
-        jsonService.saveJson(userFilePath, users);
-    }
-
 
 }

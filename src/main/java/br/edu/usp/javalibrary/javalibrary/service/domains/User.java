@@ -19,14 +19,22 @@ public class User {
         this.admin = admin;
     }
 
+    public User(String name, String emailAddress, String password, boolean admin) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.admin = admin;
+    }
+
     public User() {
     }
 
-    public UUID getID() {
+    public UUID getId() {
         return id;
     }
 
-    public void setID(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
