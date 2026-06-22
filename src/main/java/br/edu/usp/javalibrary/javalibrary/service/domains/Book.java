@@ -9,33 +9,22 @@ public class Book {
     String title;
     String description;
     String publisher;
-    ArrayList<String> authors;
-    ArrayList<UUID> categories;
+    String author;
+    String category;
     int copiesCount;
 
-    public Book(String isbn, String title, String description, String publisher, ArrayList<String> authors, ArrayList<UUID> categories, int copiesCount) {
+    public Book(String isbn, String title, String description, String publisher, String author, String category, int copiesCount) {
         this.isbn = isbn;
         this.title = title;
         this.description = description;
         this.publisher = publisher;
-        this.authors = authors;
-        this.categories = categories;
+        this.author = author;
+        this.category = category;
         this.copiesCount = copiesCount;
     }
 
-    public Book(String isbn, String title, String description, String publisher, int copiesCount) {
-        this.isbn = isbn;
-        this.title = title;
-        this.description = description;
-        this.publisher = publisher;
-        this.authors = new ArrayList<>();
-        this.categories = new ArrayList<>();
-        this.copiesCount = copiesCount;
-    }
 
     public Book() {
-        this.authors = new ArrayList<>();
-        this.categories = new ArrayList<>();
     }
 
     public String getIsbn() {
@@ -70,25 +59,20 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public ArrayList<String> getAuthors() {
-        return authors;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthors(ArrayList<String> authors) {
-        this.authors = authors;
+    public void setAuthors(String author) {
+        this.author = author;
     }
 
-    public ArrayList<UUID> getCategories() {
-        return categories;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategories(ArrayList<UUID> categories) {
-        this.categories = categories;
-    }
-
-    public boolean addCategory(Category category) {
-        if (categories.contains(category.id())) return false;
-        return categories.add(category.id());
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getCopiesCount() {
@@ -109,9 +93,9 @@ public class Book {
                 this.title.trim().equalsIgnoreCase(other.title.trim()) &&
                 this.description.trim().equalsIgnoreCase(other.description.trim()) &&
                 this.publisher.trim().equalsIgnoreCase(other.publisher.trim()) &&
-                this.copiesCount == other.copiesCount &&
-                this.categories.equals(other.categories) &&
-                this.authors.equals(other.authors);
+                this.category.trim().equalsIgnoreCase(other.category.trim()) &&
+                this.author.trim().equalsIgnoreCase(other.author.trim()) &&
+                this.copiesCount == other.copiesCount;
     }
 
     @Override
