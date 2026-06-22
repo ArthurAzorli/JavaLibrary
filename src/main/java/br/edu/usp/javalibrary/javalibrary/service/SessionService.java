@@ -10,6 +10,7 @@ public class SessionService {
     private User user;
 
     private static SessionService instance;
+
     public static SessionService getInstance(){
         if (instance == null) instance = new SessionService();
         return instance;
@@ -18,6 +19,7 @@ public class SessionService {
     private SessionService(){}
 
     public boolean login(String emailAddress, String password) {
+      
         final Optional<User> user = UserRepository.getInstance().getUser(emailAddress);
         if (user.isPresent() && user.get().isPasswordCorrect(password)){
             this.user = user.get();
@@ -31,9 +33,11 @@ public class SessionService {
     }
 
     public boolean isLogged(){
-        return user == null;
+        return user != null;
     }
 
-
+    public String getUsername() {
+        return user.getName();
+    }
 
 }

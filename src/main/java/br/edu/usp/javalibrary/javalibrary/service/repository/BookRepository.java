@@ -2,12 +2,16 @@ package br.edu.usp.javalibrary.javalibrary.service.repository;
 
 import br.edu.usp.javalibrary.javalibrary.service.JsonService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
+// import br.edu.usp.javalibrary.javalibrary.service.domains.User;
 
-import java.io.IOException;
+// import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 public class BookRepository {
     static final String bookFilePath = "books.json";
@@ -24,7 +28,8 @@ public class BookRepository {
 
     private void loadBooksFile() {
         try {
-            final ArrayList<Book> books = JsonService.getInstance().loadJson(bookFilePath);
+            Type listType = new TypeToken<ArrayList<Book>>(){}.getType();
+            final ArrayList<Book> books = JsonService.getInstance().loadJson(bookFilePath, listType);
             this.books = new HashMap<>(books.stream().collect(Collectors.toMap(Book::getIsbn, book -> book)));
         } catch (Exception e) {
             books = new HashMap<>();

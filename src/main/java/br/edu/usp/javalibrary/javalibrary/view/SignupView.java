@@ -11,7 +11,6 @@ public class SignupView {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/usp/javalibrary/javalibrary/signup.fxml"));
         Scene scene = new Scene(loader.load(), 400, 300);
         stage.setScene(scene);
-
         stage.setTitle("Cadastro");
         stage.show();
     }

@@ -9,6 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
 
 public class UserRepository {
     static final String userFilePath = "users.json";
@@ -27,10 +30,12 @@ public class UserRepository {
 
     private void loadUsersFile() {
         try {
-            final ArrayList<User> users = JsonService.getInstance().loadJson(userFilePath);
+
+            Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+            final ArrayList<User> users = JsonService.getInstance().loadJson(userFilePath, listType);
             this.users = new HashMap<>(users.stream().collect(Collectors.toMap(User::getId, user -> user)));
         } catch (Exception e) {
-            users = new HashMap<>();
+            users = null;
         }
     }
 

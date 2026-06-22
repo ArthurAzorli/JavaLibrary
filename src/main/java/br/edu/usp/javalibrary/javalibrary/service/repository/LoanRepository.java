@@ -6,6 +6,9 @@ import br.edu.usp.javalibrary.javalibrary.service.domains.Loan;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
 public class LoanRepository {
     static final String loanFilePath = "loans.json";
 
@@ -21,7 +24,8 @@ public class LoanRepository {
 
     private void loadLoansFile() {
         try {
-            loans = JsonService.getInstance().loadJson(loanFilePath);
+            Type listType = new TypeToken<ArrayList<ArrayList<Loan>>>(){}.getType();
+            loans = JsonService.getInstance().loadJson(loanFilePath, listType);
         } catch (Exception e){
             loans = new ArrayList<>();
         }

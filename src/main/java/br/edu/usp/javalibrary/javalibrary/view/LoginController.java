@@ -48,7 +48,10 @@ public class LoginController {
             return;
         }
 
-
+        try {
+            final Stage stage = (Stage) emailField.getScene().getWindow();
+            new BookView(stage);
+        } catch (IOException ignored) {}
     }
 
     @FXML
@@ -56,8 +59,7 @@ public class LoginController {
         try {
             final Stage stage = (Stage) emailField.getScene().getWindow();
             new SignupView(stage);
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
     private boolean isPatternMatches(String text, String regex) {

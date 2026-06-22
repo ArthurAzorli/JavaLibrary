@@ -51,7 +51,7 @@ public class SignupController {
 
         try {
             final String criptoPassword = Cripto.getMD5(password);
-            final User user = new User(name, email, criptoPassword, true);
+            final User user = new User(name, email, criptoPassword);
             if (!UserRepository.getInstance().saveUser(user)) {
                 showErrorDialog("Erro ao salvar usuário");
                 return;
@@ -64,8 +64,7 @@ public class SignupController {
         try {
             final Stage stage = (Stage) emailField.getScene().getWindow();
             new LoginView(stage);
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
     @FXML
@@ -73,8 +72,7 @@ public class SignupController {
         try {
             final Stage stage = (Stage) emailField.getScene().getWindow();
             new LoginView(stage);
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
     private boolean isPatternMatches(String text, String regex) {

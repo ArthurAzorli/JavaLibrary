@@ -6,6 +6,5 @@ module br.edu.usp.javalibrary.javalibrary {
     exports br.edu.usp.javalibrary.javalibrary;
 
     opens br.edu.usp.javalibrary.javalibrary.view to javafx.fxml;
-    opens br.edu.usp.javalibrary.javalibrary.service.domains to com.google.gson;
-
+    opens br.edu.usp.javalibrary.javalibrary.service.domains to com.google.gson, javafx.base, javafx.fxml;
 }

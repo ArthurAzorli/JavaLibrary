@@ -9,22 +9,19 @@ public class User {
     private String name;
     private String emailAddress;
     private String password;
-    private boolean admin;
 
-    public User(UUID id, String name, String emailAddress, String password, boolean admin) {
+    public User(UUID id, String name, String emailAddress, String password) {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = password;
-        this.admin = admin;
     }
 
-    public User(String name, String emailAddress, String password, boolean admin) {
+    public User(String name, String emailAddress, String password) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = password;
-        this.admin = admin;
     }
 
     public User() {
@@ -54,14 +51,6 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -78,7 +67,6 @@ public class User {
         return this.id == other.id &&
                 this.emailAddress.trim().equalsIgnoreCase(other.emailAddress.trim()) &&
                 this.name.trim().equalsIgnoreCase(other.name.trim()) &&
-                this.admin == other.admin &&
                 isPasswordCorrect(other.password);
     }
 
@@ -93,7 +81,6 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
-                ", admin=" + admin +
                 '}';
     }
 }

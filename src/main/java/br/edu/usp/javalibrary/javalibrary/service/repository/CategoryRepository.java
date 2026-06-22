@@ -2,11 +2,15 @@ package br.edu.usp.javalibrary.javalibrary.service.repository;
 
 import br.edu.usp.javalibrary.javalibrary.service.JsonService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Category;
+// import br.edu.usp.javalibrary.javalibrary.service.domains.User;
 
-import java.io.IOException;
+// import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 public class CategoryRepository {
     static final String categoryFilePath = "categories.json";
@@ -23,7 +27,8 @@ public class CategoryRepository {
 
     private void loadCategoriesFile() {
         try {
-            categories = JsonService.getInstance().loadJson(categoryFilePath);
+            Type listType = new TypeToken<ArrayList<Category>>(){}.getType();
+            categories = JsonService.getInstance().loadJson(categoryFilePath, listType);
         } catch (Exception e){
             categories = new ArrayList<>();
         }
