@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="420.0" prefWidth="500.0"  xmlns:fx="http://javafx.com/fxml" fx:controller="br.edu.usp.javalibrary.javalibrary.view.loan.CreateLoanController">
+    <GridPane hgap="10.0" vgap="15.0" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="120.0" prefWidth="130.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="30.0" vgrow="NEVER" />
+            <RowConstraints minHeight="30.0" vgrow="NEVER" />
+            <RowConstraints minHeight="30.0" vgrow="NEVER" />
+            <RowConstraints minHeight="30.0" vgrow="NEVER" />
+            <RowConstraints minHeight="40.0" vgrow="NEVER" />
+        </rowConstraints>
+
+        <Label text="Livro (ISBN):" />
+        <ComboBox fx:id="cbBook" maxWidth="1.7976931348623157E308" promptText="Selecione o Livro" GridPane.columnIndex="1" />
+
+        <Label text="Usuário (ID):" GridPane.rowIndex="1" />
+        <ComboBox fx:id="cbUser" maxWidth="1.7976931348623157E308" promptText="Selecione o Usuário" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Previsão Devolução:" GridPane.rowIndex="2" />
+        <DatePicker fx:id="dpEndPrevision" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Button fx:id="btnReturnBook" mnemonicParsing="false" onAction="#handleMarkAsReturned" prefHeight="35.0" style="-fx-base: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Marcar como Entregue" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <HBox alignment="CENTER_RIGHT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handleCancel" prefHeight="35.0" prefWidth="100.0" text="Cancelar" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSave" prefHeight="35.0" prefWidth="100.0" style="-fx-base: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" text="Salvar" />
+        </HBox>
+    </GridPane>
+</AnchorPane>

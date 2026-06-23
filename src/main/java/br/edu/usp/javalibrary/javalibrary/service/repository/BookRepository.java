@@ -71,4 +71,22 @@ public class BookRepository {
         return saveBooksFile();
     }
 
+    public boolean loanBook(String isbn) {
+        if (books == null) loadBooksFile();
+        Book book = books.get(isbn);
+        if (book != null && book.getCopiesCount() > 0) {
+            book.setCopiesCount(book.getCopiesCount() - 1);
+            return saveBooksFile();
+        } return false;
+    }
+
+    public boolean returnBook(String isbn) {
+        if (books == null) loadBooksFile();
+        Book book = books.get(isbn);
+        if (book != null) {
+            book.setCopiesCount(book.getCopiesCount() + 1);
+            return saveBooksFile();
+        } return false;
+    }
+
 }

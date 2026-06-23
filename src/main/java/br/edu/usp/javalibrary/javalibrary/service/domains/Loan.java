@@ -86,6 +86,12 @@ public class Loan {
         return end != null;
     }
 
+    public String getStatus() {
+        if (isFinished()) return "Finalizado";
+        if (isDelayed()) return "Atrasado";
+        return "Emprestado";
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

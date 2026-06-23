@@ -37,8 +37,7 @@ public class HomeController {
 
     @FXML
     private void handleMenuLoans(Event event) {
-        System.out.println("LOANSSS ");
-        showAlert(Alert.AlertType.INFORMATION, "Empréstimos", "Módulo de empréstimos em desenvolvimento.");
+        changeCenterContent("/br/edu/usp/javalibrary/javalibrary/loan.fxml");
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

@@ -2,6 +2,7 @@ package br.edu.usp.javalibrary.javalibrary.view.book;
 
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
+import br.edu.usp.javalibrary.javalibrary.service.repository.LoanRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
