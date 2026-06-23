@@ -1,4 +1,4 @@
-package br.edu.usp.javalibrary.javalibrary.view;
+package br.edu.usp.javalibrary.javalibrary.view.book;
 
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import javafx.fxml.FXMLLoader;

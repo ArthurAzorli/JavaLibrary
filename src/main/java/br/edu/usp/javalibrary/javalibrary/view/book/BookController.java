@@ -1,9 +1,10 @@
-package br.edu.usp.javalibrary.javalibrary.view;
+package br.edu.usp.javalibrary.javalibrary.view.book;
 
 import br.edu.usp.javalibrary.javalibrary.service.SessionService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
 
+import br.edu.usp.javalibrary.javalibrary.view.LoginView;
 import javafx.application.Platform;
 
 import javafx.collections.FXCollections;
@@ -24,9 +25,9 @@ import java.util.Optional;
 
 public class BookController {
 
-    private SessionService session = SessionService.getInstance();
+    final private SessionService session = SessionService.getInstance();
 
-    private BookRepository bookRepository = BookRepository.getInstance();
+    final private BookRepository bookRepository = BookRepository.getInstance();
 
     @FXML
     private Label username;
@@ -154,9 +155,7 @@ public class BookController {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             bookList.remove(selectedBook);
-
             bookRepository.removeBook(selectedBook.getIsbn());
-
             showAlert(Alert.AlertType.INFORMATION, "Sucesso", null, "Livro removido com sucesso!");
         }
     }

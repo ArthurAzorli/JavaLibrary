@@ -1,4 +1,4 @@
-package br.edu.usp.javalibrary.javalibrary.view;
+package br.edu.usp.javalibrary.javalibrary.view.book;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

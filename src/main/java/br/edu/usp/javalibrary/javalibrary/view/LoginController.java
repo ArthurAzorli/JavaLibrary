@@ -3,6 +3,7 @@ package br.edu.usp.javalibrary.javalibrary.view;
 import br.edu.usp.javalibrary.javalibrary.service.SessionService;
 import br.edu.usp.javalibrary.javalibrary.service.utils.Cripto;
 
+import br.edu.usp.javalibrary.javalibrary.view.book.BookView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;

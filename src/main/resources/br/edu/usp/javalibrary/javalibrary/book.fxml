@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="440.0" minWidth="740.0" prefHeight="440.0" prefWidth="740.0" xmlns:fx="http://javafx.com/fxml" fx:controller="br.edu.usp.javalibrary.javalibrary.view.BookController">
+<AnchorPane minHeight="440.0" minWidth="740.0" prefHeight="440.0" prefWidth="740.0" xmlns:fx="http://javafx.com/fxml" fx:controller="br.edu.usp.javalibrary.javalibrary.view.book.BookController">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
