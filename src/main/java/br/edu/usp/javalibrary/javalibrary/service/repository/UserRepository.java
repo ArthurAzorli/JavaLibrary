@@ -30,7 +30,6 @@ public class UserRepository {
 
     private void loadUsersFile() {
         try {
-
             Type listType = new TypeToken<ArrayList<User>>(){}.getType();
             final ArrayList<User> users = JsonService.getInstance().loadJson(userFilePath, listType);
             this.users = new HashMap<>(users.stream().collect(Collectors.toMap(User::getId, user -> user)));

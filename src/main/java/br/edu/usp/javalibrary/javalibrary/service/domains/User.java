@@ -8,24 +8,23 @@ public class User {
     private UUID id;
     private String name;
     private String emailAddress;
-    private String address;
+    private String password;
 
-    public User(UUID id, String name, String emailAddress, String address) {
+    public User(UUID id, String name, String emailAddress, String password) {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
-        this.address = address;
+        this.password = password;
     }
 
-    public User(String name, String emailAddress, String address) {
+    public User(String name, String emailAddress, String password) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.emailAddress = emailAddress;
-        this.address = address;
+        this.password = password;
     }
 
     public User() {
-        this.id = UUID.randomUUID();
     }
 
     public UUID getId() {
@@ -52,14 +51,13 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getAddress() {
-        return address;
+    public boolean isPasswordCorrect(String password) {
+        return this.password.equalsIgnoreCase(password); //Compare MD5 hashes
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -69,11 +67,20 @@ public class User {
         return this.id == other.id &&
                 this.emailAddress.trim().equalsIgnoreCase(other.emailAddress.trim()) &&
                 this.name.trim().equalsIgnoreCase(other.name.trim()) &&
-                this.address.trim().equalsIgnoreCase(other.emailAddress.trim());
+                isPasswordCorrect(other.password);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, emailAddress);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                '}';
     }
 }

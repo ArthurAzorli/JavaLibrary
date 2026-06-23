@@ -24,8 +24,13 @@ public class LoanRepository {
 
     private void loadLoansFile() {
         try {
-            Type listType = new TypeToken<ArrayList<ArrayList<Loan>>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<Loan>>(){}.getType();
             loans = JsonService.getInstance().loadJson(loanFilePath, listType);
+            
+            // Se o arquivo não existia e retornou null, inicializa como lista vazia
+            if (loans == null) {
+                loans = new ArrayList<>();
+            }
         } catch (Exception e){
             loans = new ArrayList<>();
         }
@@ -59,4 +64,15 @@ public class LoanRepository {
         return saveLoansFile();
     }
 
+    public boolean hasLoanByUserId(UUID userId) {
+        if (loans == null) loadLoansFile();
+        return loans.stream()
+            .anyMatch(loan -> loan.getUserID().equals(userId));
+    }
+
+    public boolean hasLoanByBookIsbn(String isbn) {
+        if (loans == null) loadLoansFile();
+        return loans.stream()
+            .anyMatch(loan -> loan.getBookISBN().equals(isbn));
+    }
 }

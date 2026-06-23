@@ -1,51 +1,74 @@
 package br.edu.usp.javalibrary.javalibrary.view;
 
-import javafx.event.Event;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
+import br.edu.usp.javalibrary.javalibrary.service.SessionService;
+import br.edu.usp.javalibrary.javalibrary.view.book.BookView;
+import br.edu.usp.javalibrary.javalibrary.view.user.UserView;
+import br.edu.usp.javalibrary.javalibrary.view.loan.LoanView;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class HomeController {
+    
+    private final SessionService session = SessionService.getInstance();
 
     @FXML
-    private BorderPane homePanel;
+    private Label username;
 
-    private void changeCenterContent(String fxmlPath) {
+    @FXML
+    public void initialize() {
+        Platform.runLater(() -> {
+            if (session.isLogged()) {
+                username.setText("Bem-vindo, " + session.getUsername() + "!");
+            } else {
+                redirectToLogin();
+            }
+        });
+    }
+
+    private void redirectToLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent view = loader.load();
-            homePanel.setCenter(view);
-        } catch (IOException e) {
+            final Stage stage = (Stage) username.getScene().getWindow();
+            new LoginView(stage);
+        } catch (IOException e) {}
+    }
+
+    @FXML
+    private void handleButtonLogout(ActionEvent event) {
+        session.logout();
+        redirectToLogin();
+    }
+
+    @FXML
+    private void handleButtonUsers(ActionEvent event) {
+        try {
+            final Stage stage = (Stage) username.getScene().getWindow();
+            new UserView(stage); 
+        } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar a tela: " + fxmlPath);
         }
     }
 
     @FXML
-    private void handleMenuBooks(Event event) {
-        changeCenterContent("/br/edu/usp/javalibrary/javalibrary/book.fxml");
+    private void handleButtonBooks(ActionEvent event) {
+        try {
+            final Stage stage = (Stage) username.getScene().getWindow();
+            new BookView(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private void handleMenuUsers(Event event) {
-        changeCenterContent("/br/edu/usp/javalibrary/javalibrary/user.fxml");
-    }
-
-    @FXML
-    private void handleMenuLoans(Event event) {
-        System.out.println("LOANSSS ");
-        showAlert(Alert.AlertType.INFORMATION, "Empréstimos", "Módulo de empréstimos em desenvolvimento.");
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
+    private void handleButtonLoans(ActionEvent event) {
+        try {
+            final Stage stage = (Stage) username.getScene().getWindow();
+            new LoanView(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

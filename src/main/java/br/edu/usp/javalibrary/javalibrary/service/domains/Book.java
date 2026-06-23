@@ -21,7 +21,6 @@ public class Book {
         this.copiesCount = copiesCount;
     }
 
-
     public Book() {
     }
 

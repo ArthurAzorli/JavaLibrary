@@ -2,12 +2,15 @@ package br.edu.usp.javalibrary.javalibrary.view.book;
 
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
+import br.edu.usp.javalibrary.javalibrary.service.repository.LoanRepository;
+import br.edu.usp.javalibrary.javalibrary.view.HomeView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +19,6 @@ import java.util.Optional;
 public class BookController {
 
     final private BookRepository bookRepository = BookRepository.getInstance();
-    private final ObservableList<Book> bookList = FXCollections.observableArrayList();
 
     @FXML
     private TextField search;
@@ -45,6 +47,8 @@ public class BookController {
     @FXML
     private TableColumn<Book, Integer> copies;
 
+    private final ObservableList<Book> bookList = FXCollections.observableArrayList();
+
     @FXML
     public void initialize() {
 
@@ -65,6 +69,19 @@ public class BookController {
         bookList.addAll(bookRepository.getBooks());
     }
 
+    private void redirectToHome() {
+        try {
+            final Stage stage = (Stage) search.getScene().getWindow();
+            new HomeView(stage);
+        } catch (IOException ignored) {
+        }
+    }
+
+
+    @FXML
+    private void handleButtonHome(ActionEvent event) {
+        redirectToHome();
+    }
 
     private Optional<ButtonType> showAlert(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
@@ -79,9 +96,7 @@ public class BookController {
         try {
             new CreateBookView();
             updateList();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erro", null, "Não foi possível carregar a tela");
+        } catch (IOException ignored) {
         }
     }
 
@@ -97,9 +112,7 @@ public class BookController {
         try {
             new CreateBookView(selectedBook);
             updateList();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erro", null, "Não foi possível carregar a tela");
+        } catch (IOException ignored) {
         }
     }
 
@@ -113,15 +126,17 @@ public class BookController {
         }
 
         Optional<ButtonType> result = showAlert(Alert.AlertType.CONFIRMATION, "Confirmar Exclusão", "Você está prestes a remover um livro.", "Tem certeza que deseja remover o livro: \"" + selectedBook.getTitle() + "\" - " + selectedBook.getIsbn() + " ?");
-        if (result.isEmpty() || result.get() != ButtonType.OK) return;
 
-        if (bookRepository.removeBook(selectedBook.getIsbn())) {
-            bookList.remove(selectedBook);
-            showAlert(Alert.AlertType.INFORMATION, "Sucesso", null, "Livro removido com sucesso!");
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Erro", null, "Houve um erro ao remover o livro!");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (LoanRepository.getInstance().hasLoanByBookIsbn(selectedBook.getIsbn())) {
+                showAlert(Alert.AlertType.ERROR, "Erro", null, "Não é possível remover o livro pois há exemplares dele emprestado.");
+                return;
+            } else {
+                bookList.remove(selectedBook);
+                bookRepository.removeBook(selectedBook.getIsbn());
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", null, "Livro removido com sucesso!");
+            }
         }
-
     }
 
     @FXML
@@ -136,15 +151,15 @@ public class BookController {
         String lowerCaseFilter = query.toLowerCase().trim();
 
         List<Book> filteredBooks = bookRepository.getBooks()
-                .stream()
-                .filter(book -> {
-                    boolean matchesIsbn = book.getIsbn() != null && book.getIsbn().toLowerCase().contains(lowerCaseFilter);
-                    boolean matchesTitle = book.getTitle() != null && book.getTitle().toLowerCase().contains(lowerCaseFilter);
-                    boolean matchesCategory = book.getCategory() != null && book.getCategory().toLowerCase().contains(lowerCaseFilter);
-                    boolean matchesAuthor = book.getAuthor() != null && book.getAuthor().toLowerCase().contains(lowerCaseFilter);
-                    return matchesIsbn || matchesTitle || matchesCategory || matchesAuthor;
-                })
-                .toList();
+            .stream()
+            .filter(book -> {
+                boolean matchesIsbn = book.getIsbn() != null && book.getIsbn().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesTitle = book.getTitle() != null && book.getTitle().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesCategory = book.getCategory() != null && book.getCategory().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesAuthor = book.getAuthor() != null && book.getAuthor().toLowerCase().contains(lowerCaseFilter);
+                return matchesIsbn || matchesTitle || matchesCategory || matchesAuthor;
+            })
+            .toList();
 
         bookList.clear();
         bookList.addAll(filteredBooks);
@@ -155,6 +170,5 @@ public class BookController {
         search.clear();
         updateList();
     }
-
 
 }

@@ -8,41 +8,41 @@
    <children>
       <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <VBox VBox.vgrow="NEVER">
+            <VBox VBox.vgrow="ALWAYS">
                <children>
-                  <GridPane minHeight="50.0" prefHeight="50.0" VBox.vgrow="NEVER">
+                  <GridPane minHeight="50.0" VBox.vgrow="NEVER">
                      <columnConstraints>
-                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="200.0" />
-                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
-                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
-                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="170.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="bookTitle" alignment="CENTER_LEFT" maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="200.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Livros" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Button fx:id="addBook" maxHeight="50.0" maxWidth="105.0" minHeight="50.0" minWidth="105.0" mnemonicParsing="false" onAction="#handleButtonAddBook" prefHeight="50.0" prefWidth="105.0" text="Adicionar Livro" GridPane.columnIndex="1" />
-                        <Button fx:id="updateBook" maxHeight="50.0" maxWidth="105.0" minHeight="50.0" minWidth="105.0" mnemonicParsing="false" onAction="#handleButtonUpdateBook" prefHeight="50.0" prefWidth="105.0" text="Editar Livro" GridPane.columnIndex="2" />
-                        <Button fx:id="removeBook" maxHeight="50.0" maxWidth="105.0" minHeight="50.0" minWidth="105.0" mnemonicParsing="false" onAction="#handleButtonRemoveBook" prefHeight="50.0" prefWidth="105.0" text="Remover Livro" GridPane.columnIndex="3" />
+                        <TextField fx:id="search" maxHeight="35.0" maxWidth="1.7976931348623157E308" promptText="Buscar por título, ISBN, autor ou categoria" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+
+                        <Button fx:id="searchButton" maxHeight="50.0" maxWidth="75.0" minHeight="50.0" minWidth="75.0" mnemonicParsing="false" onAction="#handleButtonSearch" prefHeight="50.0" prefWidth="75.0" text="Buscar" GridPane.columnIndex="1" />
+
+                        <Button fx:id="clearButton" maxHeight="50.0" maxWidth="75.0" minHeight="50.0" minWidth="75.0" mnemonicParsing="false" onAction="#handleButtonClear" prefHeight="50.0" prefWidth="75.0" text="Limpar" GridPane.columnIndex="2" />
+
+                        <Button fx:id="addBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAddBook" prefHeight="50.0" prefWidth="100.0" text="Adicionar Livro" GridPane.columnIndex="3" />
+                        <Button fx:id="updateBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonUpdateBook" prefHeight="50.0" prefWidth="100.0" text="Editar Livro" GridPane.columnIndex="4" />
+                        <Button fx:id="removeBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonRemoveBook" prefHeight="50.0" prefWidth="100.0" text="Remover Livro" GridPane.columnIndex="5" />
+                        <Button fx:id="home" maxHeight="50.0" maxWidth="70.0" minHeight="50.0" minWidth="70.0" mnemonicParsing="false" onAction="#handleButtonHome" prefHeight="50.0" prefWidth="70.0" text="Home" GridPane.columnIndex="6" />
                      </children>
                   </GridPane>
                </children>
             </VBox>
-
-            <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
-               <children>
-                  <TextField fx:id="search" prefHeight="30.0" promptText="Pesquisar por título, isbn, categoria ou autor..." HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#handleButtonSearch" prefHeight="30.0" prefWidth="100.0" text="Pesquisar" />
-                  <Button mnemonicParsing="false" onAction="#handleButtonClear" prefHeight="30.0" prefWidth="100.0" text="Limpar" />
-               </children>
-            </HBox>
-
-            <TableView fx:id="booksTable" minHeight="320.0" minWidth="640.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="booksTable" minHeight="350.0" minWidth="640.0" VBox.vgrow="ALWAYS">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>

@@ -10,7 +10,7 @@
 
         <Label text="Bem-vindo!" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-        <TextField fx:id="emailField" promptText="Usuário"/>
+        <TextField fx:id="emailField" promptText="E-mail"/>
         <PasswordField fx:id="passwordField" promptText="Senha"/>
 
         <HBox spacing="10" alignment="CENTER">
