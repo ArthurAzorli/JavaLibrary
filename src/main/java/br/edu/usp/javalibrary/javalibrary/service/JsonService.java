@@ -22,10 +22,10 @@ public class JsonService {
 
     private JsonService(){}
 
-    public <T> T loadJson(String filePath, Type typeOfT) throws IOException {
+    public <T> T loadJson(String filePath, Type type) throws IOException {
         final Path path = Paths.get(filePath);
         final String json = Files.readString(path, StandardCharsets.UTF_8);
-        return converter.fromJson(json, typeOfT);
+        return converter.fromJson(json, type);
     }
 
     public <T> void saveJson(String filePath, T data) throws IOException {

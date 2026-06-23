@@ -1,8 +1,6 @@
 package br.edu.usp.javalibrary.javalibrary.service.domains;
 
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.UUID;
 
 public class Book {
     String isbn;

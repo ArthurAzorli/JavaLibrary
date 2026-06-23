@@ -141,12 +141,15 @@ public class BookController {
         }
 
         Optional<ButtonType> result = showAlert(Alert.AlertType.CONFIRMATION, "Confirmar Exclusão", "Você está prestes a remover um livro.", "Tem certeza que deseja remover o livro: \"" + selectedBook.getTitle() + "\" - " + selectedBook.getIsbn() + " ?");
+        if (result.isEmpty() || result.get() != ButtonType.OK) return;
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (bookRepository.removeBook(selectedBook.getIsbn())) {
             bookList.remove(selectedBook);
-            bookRepository.removeBook(selectedBook.getIsbn());
             showAlert(Alert.AlertType.INFORMATION, "Sucesso", null, "Livro removido com sucesso!");
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erro", null, "Houve um erro ao remover o livro!");
         }
+
     }
 
     @FXML
@@ -161,15 +164,15 @@ public class BookController {
         String lowerCaseFilter = query.toLowerCase().trim();
 
         List<Book> filteredBooks = bookRepository.getBooks()
-            .stream()
-            .filter(book -> {
-                boolean matchesIsbn = book.getIsbn() != null && book.getIsbn().toLowerCase().contains(lowerCaseFilter);
-                boolean matchesTitle = book.getTitle() != null && book.getTitle().toLowerCase().contains(lowerCaseFilter);
-                boolean matchesCategory = book.getCategory() != null && book.getCategory().toLowerCase().contains(lowerCaseFilter);
-                boolean matchesAuthor = book.getAuthor() != null && book.getAuthor().toLowerCase().contains(lowerCaseFilter);
-                return matchesIsbn || matchesTitle || matchesCategory || matchesAuthor;
-            })
-            .toList();
+                .stream()
+                .filter(book -> {
+                    boolean matchesIsbn = book.getIsbn() != null && book.getIsbn().toLowerCase().contains(lowerCaseFilter);
+                    boolean matchesTitle = book.getTitle() != null && book.getTitle().toLowerCase().contains(lowerCaseFilter);
+                    boolean matchesCategory = book.getCategory() != null && book.getCategory().toLowerCase().contains(lowerCaseFilter);
+                    boolean matchesAuthor = book.getAuthor() != null && book.getAuthor().toLowerCase().contains(lowerCaseFilter);
+                    return matchesIsbn || matchesTitle || matchesCategory || matchesAuthor;
+                })
+                .toList();
 
         bookList.clear();
         bookList.addAll(filteredBooks);

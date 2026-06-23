@@ -2,9 +2,8 @@ package br.edu.usp.javalibrary.javalibrary.service.repository;
 
 import br.edu.usp.javalibrary.javalibrary.service.JsonService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
-// import br.edu.usp.javalibrary.javalibrary.service.domains.User;
 
-// import java.io.IOException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -31,7 +30,7 @@ public class BookRepository {
             Type listType = new TypeToken<ArrayList<Book>>(){}.getType();
             final ArrayList<Book> books = JsonService.getInstance().loadJson(bookFilePath, listType);
             this.books = new HashMap<>(books.stream().collect(Collectors.toMap(Book::getIsbn, book -> book)));
-        } catch (Exception e) {
+        } catch (IOException e) {
             books = new HashMap<>();
         }
     }
