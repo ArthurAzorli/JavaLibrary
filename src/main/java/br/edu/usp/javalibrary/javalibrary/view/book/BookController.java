@@ -1,17 +1,13 @@
 package br.edu.usp.javalibrary.javalibrary.view.book;
 
-import br.edu.usp.javalibrary.javalibrary.service.SessionService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
-import br.edu.usp.javalibrary.javalibrary.view.LoginView;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,12 +15,8 @@ import java.util.Optional;
 
 public class BookController {
 
-    final private SessionService session = SessionService.getInstance();
-
     final private BookRepository bookRepository = BookRepository.getInstance();
-
-    @FXML
-    private Label username;
+    private final ObservableList<Book> bookList = FXCollections.observableArrayList();
 
     @FXML
     private TextField search;
@@ -53,18 +45,8 @@ public class BookController {
     @FXML
     private TableColumn<Book, Integer> copies;
 
-    private final ObservableList<Book> bookList = FXCollections.observableArrayList();
-
     @FXML
     public void initialize() {
-
-        Platform.runLater(() -> {
-            if (session.isLogged()) {
-                username.setText(session.getUsername());
-            } else {
-                redirectToLogin();
-            }
-        });
 
         isbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -83,20 +65,6 @@ public class BookController {
         bookList.addAll(bookRepository.getBooks());
     }
 
-    private void redirectToLogin() {
-        try {
-            final Stage stage = (Stage) username.getScene().getWindow();
-            new LoginView(stage);
-        } catch (IOException ignored) {
-        }
-    }
-
-
-    @FXML
-    private void handleButtonLogout(ActionEvent event) {
-        session.logout();
-        redirectToLogin();
-    }
 
     private Optional<ButtonType> showAlert(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
@@ -111,7 +79,9 @@ public class BookController {
         try {
             new CreateBookView();
             updateList();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro", null, "Não foi possível carregar a tela");
         }
     }
 
@@ -127,7 +97,9 @@ public class BookController {
         try {
             new CreateBookView(selectedBook);
             updateList();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro", null, "Não foi possível carregar a tela");
         }
     }
 
@@ -182,11 +154,6 @@ public class BookController {
     private void handleButtonClear(ActionEvent event) {
         search.clear();
         updateList();
-    }
-
-    @FXML
-    private void handleButtonLoan(ActionEvent event) {
-        // System.out.println("Loan\n");
     }
 
 

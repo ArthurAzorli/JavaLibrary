@@ -9,8 +9,8 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/usp/javalibrary/javalibrary/login.fxml"));
-        Scene scene = new Scene(loader.load(), 400, 300);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/usp/javalibrary/javalibrary/home.fxml"));
+        Scene scene = new Scene(loader.load());
         stage.setTitle("Java Library");
         stage.setScene(scene);
         stage.show();

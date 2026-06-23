@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane fx:id="homePanel" minHeight="550.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml" fx:controller="br.edu.usp.javalibrary.javalibrary.view.HomeController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu mnemonicParsing="false">
+                <graphic>
+                    <Label text="Livros" onMouseClicked="#handleMenuBooks"/>
+                </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false">
+                <graphic>
+                    <Label text="Empréstimos" onMouseClicked="#handleMenuLoans"/>
+                </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false">
+                <graphic>
+                    <Label text="Usuários" onMouseClicked="#handleMenuUsers"/>
+                </graphic>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <StackPane fx:id="contentArea" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Label style="-fx-font-size: 20px; -fx-text-fill: #777777; -fx-font-weight: bold;"
+                   text="Bem-vindo ao JavaLibrary!"/>
+        </StackPane>
+    </center>
+</BorderPane>

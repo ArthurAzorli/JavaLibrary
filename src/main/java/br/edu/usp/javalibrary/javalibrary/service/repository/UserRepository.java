@@ -35,7 +35,7 @@ public class UserRepository {
             final ArrayList<User> users = JsonService.getInstance().loadJson(userFilePath, listType);
             this.users = new HashMap<>(users.stream().collect(Collectors.toMap(User::getId, user -> user)));
         } catch (Exception e) {
-            users = null;
+            users = new HashMap<>();
         }
     }
 
