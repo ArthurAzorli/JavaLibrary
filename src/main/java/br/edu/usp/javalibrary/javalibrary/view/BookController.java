@@ -101,19 +101,6 @@ public class BookController {
         } catch (IOException ignored) {}
     }
 
-    @FXML
-    private void handleButtonLoan(ActionEvent event) {
-        // System.out.println("Loan\n");
-    }
-
-    @FXML
-    private void handleButtonAddBook(ActionEvent event) {
-        try {
-            new CreateBookView();
-            updateList();
-        } catch (IOException ignored) {
-        }
-    }
 
     @FXML
     private void handleButtonLogout(ActionEvent event) {
@@ -127,6 +114,31 @@ public class BookController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         return alert.showAndWait();
+    }
+
+    @FXML
+    private void handleButtonAddBook(ActionEvent event) {
+        try {
+            new CreateBookView();
+            updateList();
+        } catch (IOException ignored) {
+        }
+    }
+
+    @FXML
+    private void handleButtonUpdateBook(ActionEvent event) {
+        Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBook == null) {
+            showAlert(Alert.AlertType.INFORMATION, "Nenhum livro selecionado", null, "Por favor, selecione um livro na tabela para remover.");
+            return;
+        }
+
+        try {
+            new CreateBookView(selectedBook);
+            updateList();
+        } catch (IOException ignored) {
+        }
     }
 
     @FXML
@@ -150,8 +162,9 @@ public class BookController {
     }
 
     @FXML
-    private void handleButtonUpdateBook(ActionEvent event) {
-        // System.out.println("UpdateBook\n");
+    private void handleButtonLoan(ActionEvent event) {
+        // System.out.println("Loan\n");
     }
+
 
 }

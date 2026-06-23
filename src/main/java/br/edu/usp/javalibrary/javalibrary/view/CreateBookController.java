@@ -10,7 +10,9 @@ import java.util.function.UnaryOperator;
 
 public class CreateBookController {
 
-    BookRepository repository = BookRepository.getInstance();
+    private final BookRepository repository = BookRepository.getInstance();
+
+    private Book book;
 
     @FXML
     private TextField txtIsbn;
@@ -31,6 +33,21 @@ public class CreateBookController {
     @FXML
     private Button btnCancel;
 
+    public void setBook(Book book) {
+        this.book = book;
+
+        txtIsbn.setText(book.getIsbn());
+        txtTitle.setText(book.getTitle());
+        txtDescription.setText(book.getDescription());
+        txtPublisher.setText(book.getPublisher());
+        txtAuthor.setText(book.getAuthor());
+        txtCategory.setText(book.getCategory());
+        txtCopies.setText(String.valueOf(book.getCopiesCount()));
+
+        txtIsbn.setEditable(false);
+    }
+
+
     @FXML
     public void initialize() {
         // Filtro regex para permitir APENAS dígitos numéricos nos campos específicos
@@ -45,6 +62,7 @@ public class CreateBookController {
         // Aplica as restrições numéricas aos campos solicitados
         txtIsbn.setTextFormatter(new TextFormatter<>(filterNumbersOnly));
         txtCopies.setTextFormatter(new TextFormatter<>(filterNumbersOnly));
+        if (book == null) book = new Book();
     }
 
     @FXML
@@ -54,17 +72,16 @@ public class CreateBookController {
             return;
         }
 
-        final String isbn = txtIsbn.getText();
-        final String title = txtTitle.getText();
-        final String description = txtDescription.getText();
-        final String publisher = txtPublisher.getText();
-        final String author = txtAuthor.getText();
-        final String category = txtCategory.getText();
-        int copiesCount = txtCopies.getText().isEmpty() ? 0 : Integer.parseInt(txtCopies.getText());
+        book.setIsbn(txtIsbn.getText());
+        book.setTitle(txtTitle.getText());
+        book.setDescription(txtDescription.getText());
+        book.setPublisher(txtPublisher.getText());
+        book.setAuthor(txtAuthor.getText());
+        book.setCategory(txtCategory.getText());
+        book.setCopiesCount(txtCopies.getText().isEmpty() ? 0 : Integer.parseInt(txtCopies.getText()));
 
-        Book newBook = new Book(isbn, title, description, publisher, author, category, copiesCount);
-        if (repository.saveBook(newBook)) {
-            showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Livro cadastrado com sucesso!");
+        if (repository.saveBook(book)) {
+            showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Dados salvos com sucesso!");
             closeWindow();
         } else {
             showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Houve um erro ao salvar.");
