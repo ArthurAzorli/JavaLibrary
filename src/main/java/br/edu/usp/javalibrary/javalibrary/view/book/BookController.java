@@ -3,24 +3,18 @@ package br.edu.usp.javalibrary.javalibrary.view.book;
 import br.edu.usp.javalibrary.javalibrary.service.SessionService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
-
 import br.edu.usp.javalibrary.javalibrary.view.LoginView;
 import javafx.application.Platform;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class BookController {
@@ -33,13 +27,7 @@ public class BookController {
     private Label username;
 
     @FXML
-    private Button loan;
-
-    @FXML
-    private Button addBook;
-
-    @FXML
-    private Button logout;
+    private TextField search;
 
     @FXML
     private TableView<Book> booksTable;
@@ -90,7 +78,7 @@ public class BookController {
         booksTable.setItems(bookList);
     }
 
-    private void updateList(){
+    private void updateList() {
         bookList.clear();
         bookList.addAll(bookRepository.getBooks());
     }
@@ -99,7 +87,8 @@ public class BookController {
         try {
             final Stage stage = (Stage) username.getScene().getWindow();
             new LoginView(stage);
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
 
@@ -109,7 +98,7 @@ public class BookController {
         redirectToLogin();
     }
 
-    private  Optional<ButtonType> showAlert(Alert.AlertType type,String title, String header, String content) {
+    private Optional<ButtonType> showAlert(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -158,6 +147,38 @@ public class BookController {
             bookRepository.removeBook(selectedBook.getIsbn());
             showAlert(Alert.AlertType.INFORMATION, "Sucesso", null, "Livro removido com sucesso!");
         }
+    }
+
+    @FXML
+    private void handleButtonSearch(ActionEvent event) {
+        String query = search.getText();
+
+        if (query == null || query.isBlank()) {
+            updateList();
+            return;
+        }
+
+        String lowerCaseFilter = query.toLowerCase().trim();
+
+        List<Book> filteredBooks = bookRepository.getBooks()
+            .stream()
+            .filter(book -> {
+                boolean matchesIsbn = book.getIsbn() != null && book.getIsbn().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesTitle = book.getTitle() != null && book.getTitle().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesCategory = book.getCategory() != null && book.getCategory().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesAuthor = book.getAuthor() != null && book.getAuthor().toLowerCase().contains(lowerCaseFilter);
+                return matchesIsbn || matchesTitle || matchesCategory || matchesAuthor;
+            })
+            .toList();
+
+        bookList.clear();
+        bookList.addAll(filteredBooks);
+    }
+
+    @FXML
+    private void handleButtonClear(ActionEvent event) {
+        search.clear();
+        updateList();
     }
 
     @FXML
