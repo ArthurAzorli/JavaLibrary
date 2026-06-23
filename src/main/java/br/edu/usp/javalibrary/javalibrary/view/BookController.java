@@ -2,14 +2,17 @@ package br.edu.usp.javalibrary.javalibrary.view;
 
 import br.edu.usp.javalibrary.javalibrary.service.SessionService;
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
+import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
+
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,22 +20,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Optional;
 
 public class BookController {
-    
-    SessionService session = SessionService.getInstance();
+
+    private SessionService session = SessionService.getInstance();
+
+    private BookRepository bookRepository = BookRepository.getInstance();
 
     @FXML
     private Label username;
 
     @FXML
     private Button loan;
-    
+
     @FXML
     private Button addBook;
-    
+
     @FXML
     private Button logout;
 
@@ -52,10 +56,10 @@ public class BookController {
     private TableColumn<Book, String> publisher;
 
     @FXML
-    private TableColumn<Book, String> authors;
+    private TableColumn<Book, String> author;
 
     @FXML
-    private TableColumn<Book, String> categories;
+    private TableColumn<Book, String> category;
 
     @FXML
     private TableColumn<Book, Integer> copies;
@@ -78,45 +82,16 @@ public class BookController {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         publisher.setCellValueFactory(new PropertyValueFactory<>("publisher"));
         copies.setCellValueFactory(new PropertyValueFactory<>("copiesCount"));
+        author.setCellValueFactory(new PropertyValueFactory<>("author"));
+        category.setCellValueFactory(new PropertyValueFactory<>("category"));
 
-        authors.setCellValueFactory(cellData -> {
-            ArrayList<String> authors = cellData.getValue().getAuthors();
-            String authorsText = (authors != null && !authors.isEmpty()) ? String.join(", ", authors) : "No authors";
-            return new SimpleStringProperty(authorsText);
-        });
-
-        categories.setCellValueFactory(cellData -> {
-            ArrayList<UUID> categoryList = cellData.getValue().getCategories();
-            if (categoryList == null || categoryList.isEmpty()) {
-                return new SimpleStringProperty("No categories");
-            }
-            
-            String categoriesText = categoryList.stream().map(UUID::toString).collect(java.util.stream.Collectors.joining(", "));
-                                                
-            return new SimpleStringProperty(categoriesText);
-        });
-
+        updateList();
         booksTable.setItems(bookList);
-        for (int i = 0; i < 20; i++) loadSampleData();
     }
 
-    private void loadSampleData() {
-        ArrayList<String> authors1 = new ArrayList<>();
-        authors1.add("Deitel");
-        authors1.add("Harvey");
-        authors1.add("Harvey");
-        authors1.add("Harvey");
-        authors1.add("Harvey");
-        authors1.add("Harvey");
-
-        ArrayList<UUID> categories1 = new ArrayList<>();
-        categories1.add(UUID.randomUUID());
-        categories1.add(UUID.randomUUID());
-        categories1.add(UUID.randomUUID());
-
-        Book book1 = new Book("978-85", "Java: How to Program", "Comprehensive Java guide", "Pearson", authors1, categories1, 12);
-        
-        bookList.addAll(book1);
+    private void updateList(){
+        bookList.clear();
+        bookList.addAll(bookRepository.getBooks());
     }
 
     private void redirectToLogin() {
@@ -133,14 +108,50 @@ public class BookController {
 
     @FXML
     private void handleButtonAddBook(ActionEvent event) {
-        // System.out.println("AddBook\n");
+        try {
+            new CreateBookView();
+            updateList();
+        } catch (IOException ignored) {
+        }
     }
 
     @FXML
     private void handleButtonLogout(ActionEvent event) {
-
         session.logout();
         redirectToLogin();
+    }
+
+    private  Optional<ButtonType> showAlert(Alert.AlertType type,String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        return alert.showAndWait();
+    }
+
+    @FXML
+    private void handleButtonRemoveBook(ActionEvent event) {
+        Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBook == null) {
+            showAlert(Alert.AlertType.INFORMATION, "Nenhum livro selecionado", null, "Por favor, selecione um livro na tabela para remover.");
+            return;
+        }
+
+        Optional<ButtonType> result = showAlert(Alert.AlertType.CONFIRMATION, "Confirmar Exclusão", "Você está prestes a remover um livro.", "Tem certeza que deseja remover o livro: \"" + selectedBook.getTitle() + "\" - " + selectedBook.getIsbn() + " ?");
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            bookList.remove(selectedBook);
+
+            bookRepository.removeBook(selectedBook.getIsbn());
+
+            showAlert(Alert.AlertType.INFORMATION, "Sucesso", null, "Livro removido com sucesso!");
+        }
+    }
+
+    @FXML
+    private void handleButtonUpdateBook(ActionEvent event) {
+        // System.out.println("UpdateBook\n");
     }
 
 }

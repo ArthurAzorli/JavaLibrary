@@ -1,4 +1,4 @@
-package br.edu.usp.javalibrary.javalibrary.view.book.create;
+package br.edu.usp.javalibrary.javalibrary.view;
 
 import br.edu.usp.javalibrary.javalibrary.service.domains.Book;
 import br.edu.usp.javalibrary.javalibrary.service.repository.BookRepository;
