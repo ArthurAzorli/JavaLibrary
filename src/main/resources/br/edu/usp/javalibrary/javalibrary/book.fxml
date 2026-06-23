@@ -19,8 +19,7 @@
                <children>
                   <GridPane minHeight="50.0" prefHeight="50.0" VBox.vgrow="NEVER">
                      <columnConstraints>
-                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="0.0" prefWidth="0.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="200.0" />
                         <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
@@ -31,16 +30,16 @@
                         <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="addBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAddBook" prefHeight="50.0" prefWidth="100.0" text="Adicionar Livro" GridPane.columnIndex="3" />
-                        <Label fx:id="username" alignment="CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" minWidth="200.0" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 24px; -fx-font-weight: bold;">
+                        <Label fx:id="username" alignment="CENTER_LEFT" maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="200.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Button fx:id="loan" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonLoan" prefHeight="50.0" prefWidth="100.0" text="Empréstimos" GridPane.columnIndex="2" />
-                        <Button fx:id="logout" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonLogout" prefHeight="50.0" prefWidth="100.0" text="Logout" GridPane.columnIndex="6" />
-                        <Button fx:id="addBook1" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAddBook" prefHeight="50.0" prefWidth="100.0" text="Editar Livro" GridPane.columnIndex="4" />
-                        <Button fx:id="addBook11" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAddBook" prefHeight="50.0" prefWidth="100.0" text="Remover Livro" GridPane.columnIndex="5" />
+                        <Button fx:id="loan" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonLoan" prefHeight="50.0" prefWidth="100.0" text="Empréstimos" GridPane.columnIndex="1" />
+                        <Button fx:id="addBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAddBook" prefHeight="50.0" prefWidth="100.0" text="Adicionar Livro" GridPane.columnIndex="2" />
+                        <Button fx:id="updateBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonUpdateBook" prefHeight="50.0" prefWidth="100.0" text="Editar Livro" GridPane.columnIndex="3" />
+                        <Button fx:id="removeBook" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonRemoveBook" prefHeight="50.0" prefWidth="100.0" text="Remover Livro" GridPane.columnIndex="4" />
+                        <Button fx:id="logout" maxHeight="50.0" maxWidth="100.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonLogout" prefHeight="50.0" prefWidth="100.0" text="Logout" GridPane.columnIndex="5" />
                      </children>
                   </GridPane>
                </children>
@@ -55,8 +54,8 @@
                   <TableColumn fx:id="description" minWidth="100.0" prefWidth="100.0" text="Descrição" />
                   <TableColumn fx:id="publisher" minWidth="100.0" prefWidth="100.0" text="Editora" />
                   <TableColumn fx:id="copies" minWidth="50.0" prefWidth="60.0" text="Cópias" />
-                  <TableColumn fx:id="authors" minWidth="100.0" prefWidth="100.0" text="Autor" />
-                  <TableColumn fx:id="categories" minWidth="100.0" prefWidth="100.0" text="Categoria" />
+                  <TableColumn fx:id="author" minWidth="100.0" prefWidth="100.0" text="Autor" />
+                  <TableColumn fx:id="categorie" minWidth="100.0" prefWidth="100.0" text="Categoria" />
                </columns>
             </TableView>
          </children>
